@@ -1,0 +1,75 @@
+\documentclass[10pt,twoside]{article} 
+\usepackage[a4paper,portrait, top=20mm,bottom=15mm,left=25mm,right=25mm]{geometry}
+\author{ }
+
+\usepackage[utf8]{inputenc} 
+
+\usepackage[portuguese]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{hyphenat} 
+
+\usepackage[dvipsnames]{xcolor}
+
+
+\usepackage{siunitx}
+\sisetup{detect-all}
+
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+\makeatletter
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
+	\begin{center}
+		\textbf{\@title}
+		
+		\@author
+	\end{center}\egroup
+}
+\makeatother
+
+
+\title{{\Large\bf\center Flu Shot Learning: Predict H1N1 and Seasonal Flu Vaccines} 
+Machine Learning Project Proposal \\}
+
+%\author{{\bf Autor Um, Autor Dois}}
+
+\date{}
+
+
+\begin{document}
+
+\maketitle
+
+\vspace{10pt}
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}@{}l r@{}} %to \textwidth {@{}X[l] X[-1, r]@{}}
+	{\bf APC 2022/2023} \\
+	{\bf Team:} Jorge Pais, Pedro Duarte and José Baptista & {\bf Class:} 1MEECT01 and 1MEECT02
+\end{tabular*}
+
+\noindent{\rule{\linewidth}{1.5pt}}
+
+\vspace{20pt}
+
+\section{Data Set}	
+For this project, we'll use a data set from a DrivenData competition on H1N1 and Seasonal Flu Vaccine administration prediction. The data was taken from the United States National 2009 H1N1 Flu Survey and includes 35 features from each individual regarding behaviour towards transmission mitigation, opinions concerning the viruses/vaccines and social-economic background. 
+
+\section{Project Idea}
+With the recent COVID-19 epidemic, vaccination played a major role in the immunization of populations against this virus. A similar event happened in 2009 during the H1N1 Flu epidemic. With this project we'll try to predict how likely a person is to get vaccinated based on the features of the competition's dataset.
+
+\noindent The objective is to label each of the survey entries as having taken either the H1N1 vaccine or the Seasonal Flu vaccine, both or neither. Thus, this is a multi-label classification problem. Taking the feature and label training data from the competition we'll develop machine learning models for predicting these probabilities and compare each of the models using the competition's performance metric.
+
+\section{Software}
+For this particular problem we'll be using logistic regressions in order to identify the different classes. As such we'll be using Python and machine learning libraries like \textit{scikit-learn} to implement these models. For the training sets, the data preprocessing, as we're dealing with a categorical dataset, should be appropriate for this. From the papers we've analysed, a one-hot encoder is typically used. For increasing the performance of the models, a gradient boosting library can also be utilized, such as \textit{CatBoost} which can handle categorical features and from what we gather, features very high performance on categorical datasets. 
+
+\section{Papers to read}
+[1] S. Inampudi, G. Johnson, J. Jhaveri, S. Niranjan, K. Chaurasia, "Machine Learning Based Prediction of H1N1 and Seasonal Flu Vaccination", Advanced Computing, 2021. 139–150.
+
+\noindent [2] Xue, Hongxin \& Bai, Yanping \& Hu, Hongping.
+(2017). Influenza Activity Surveillance Based on Multiple
+Regression Model and Artificial Neural Network. IEEE Access
+
+\noindent [3] S. S. Ayachit, T. Kumar, S. Deshpande, N. Sharma, K. Chaurasia and M. Dixit, "Predicting H1N1 and Seasonal Flu : Vaccine Cases using Ensemble Learning approach," 2020 2nd International Conference on Advances in Computing, Communication Control and Networking (ICACCCN), 2020, pp. 172-176
+
+\end{document}

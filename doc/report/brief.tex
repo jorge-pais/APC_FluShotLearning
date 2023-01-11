@@ -31,11 +31,18 @@ In 2009, the H1N1 influenza virus, also known as swine flu, caused a global pand
 
 \section{Data Set Analysis / Data Resources}
 
-\textit{Explicar o contexto do dataset e mostrar algumas das caracteristicas dos dados, explicando algum do preprocessamento necessario a aplicar/ cuidados a ter}
+\subsection{DataSet}
+In this research work, the dataset used was provided by DrivenData, and it comes from the National 2009 H1N1 Flu Survey (NHFS) which included 36 attributes and was collected through telephone interviews. The dataset consists of 36 columns (attributes) of which respondent id is unique and 35 other columns out of which most of them were binary type and others were of ordinal type. The goal was to predict the probability of a person receiving seasonal and H1N1 vaccines. The predicted values were later evaluated based on the ROC curve. The problem falls under multilabel problem, not a multiclass problem.
+
+\subsection{Data Cleaning and Pre-processing}
+The first step in the data analysis was to check if the data has any duplicate and missing values, duplicates were not observed, but the dataset had many missing values in different attributes ranging from 19 to 13470. So, our first concern was to clean the data. Since the attributes employment concern and employment occupation had the highest missing data (13470 values) we decided to drop the same along with respondent id as it was of no use. The next step involved checking of correlation  between the attributes. This was done using the seaborn library’s correlation heatmap. It was noted that two attributes named doctor recc H1N1 vaccine and doctor recc seasonal vaccine attributes were positively correlated by 60\%.
+
+Hence, only one attribute has been retained. In the next step, the missing data were handled. Two different imputation methods are implemented in this project, the first one being median imputation and the second one, the one-hot encoder. The algorithms and packages used in this work require numeric data, and not categorical data. Therefore, a unique numerical value is assigned to each category in the object columns. This method can cause problems, as the model might not recognize the data as categorical and would process it on a scale. This leads to incorrect weight assignments. To avoid this problem, one-hot encoder is used, which encodes a category in a 1-hot vector, where the position in the vector refers to each category and its size is equal to the number of categories. Simple imputer is used to fill in missing data using median method. The Pandas library in Python identifies missing values as NaN. After the data is cleaned and pre-processed, graphical visualizations are generated.
+\begin{center}
+    \includegraphics[width = 8cm,height=8cm]{figures/Heatmap.png}\\  Figure 1 - Feature Correlation Heatmap
+\end{center}
 
 \subsection{Class Balance}
-
-\subsection{Feature Correlation}
 
 \section{Performance Metric}
 

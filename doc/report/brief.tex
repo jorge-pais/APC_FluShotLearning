@@ -18,28 +18,24 @@
 \maketitle
 
 \begin{abstract}
-    The model used in this study was a gradient boosting classifier, which was evaluated on separate test data provided by the NHFS using the area under the Receiver Operating Characteristic (ROC) curve as a performance metric. After necessary parameter tuning, the model was able to achieve a score of 0.8415.
+    %The model used in this study was a gradient boosting classifier, which was evaluated on separate test data provided by the NHFS using the area under the Receiver Operating Characteristic (ROC) curve as a performance metric. After necessary parameter tuning, the model was able to achieve a score of 0.8415.
 \end{abstract}
 
 \section{Introduction}
-Pandemics have rarely taken center stage in the way they have recently with COVID-19 in 2020.  Vaccines are a key public health measure used to fight infectious diseases like COVID-19. They provide immunization for individuals, and enough immunization in a community can further reduce the spread of diseases through "herd immunity."
-We will look at a recent historical pandemic, also of a highly infectious respiratory disease: the 2009 H1N1 influenza pandemic.
+Pandemics have rarely taken center stage in the way they have recently with COVID-19 in 2020.  Vaccines are a key public health measure used to fight infectious diseases like COVID-19. They provide immunization for individuals, and enough immunization in a community can further reduce the spread of diseases through "herd immunity." 
+In 2009, the H1N1 influenza virus, also known as swine flu, caused a global pandemic that was estimated to have resulted in 150,000 to 600,000 deaths worldwide. A vaccine for H1N1 became available in October of that year. In this study, a machine learning model was developed to help estimate the probability of a person receiving seasonal and H1N1 vaccines. For this, several classification methods were explored and compared between each other in order to figure out which one exhibited the best performance.
 
-In 2009, the H1N1 influenza virus, also known as swine flu, caused a global pandemic that was estimated to have resulted in 150,000 to 600,000 deaths worldwide. A vaccine for H1N1 became available in October of that year. In this study, we developed a machine learning model to help estimate the probability of a person receiving seasonal and H1N1 vaccines. 
+\section{Data Resources}
 
-\textit{Dar alguma contextualizacao do que é que vai ser construido neste trabalho}
-
-\section{Data Set Analysis / Data Resources}
-
-\subsection{DataSet}
-In this research work, the dataset used was provided by DrivenData, and it comes from the National 2009 H1N1 Flu Survey (NHFS) which included 36 attributes and was collected through telephone interviews. The dataset consists of 36 columns (attributes) of which respondent id is unique and 35 other columns out of which most of them were binary type and others were of ordinal type. The goal was to predict the probability of a person receiving seasonal and H1N1 vaccines. The predicted values were later evaluated based on the ROC curve. The problem falls under multilabel problem, not a multiclass problem.
+For the competition partaken in this project, the dataset was provided by DrivenData, and it comes from the National 2009 H1N1 Flu Survey (NHFS) which was collected through telephone interviews. The dataset consists of 36 attributes, varying from numerical with both ordinal and binary variables, and also categorical attributes. For the training data, there were 2 labels associated with each respondent, indicating whether or not each respondent had taken the H1N1 and Seasonal flu vaccines.
 
 \subsection{Data Cleaning and Pre-processing}
-The first step in the data analysis was to check if the data has any duplicate and missing values, duplicates were not observed, but the dataset had many missing values in different attributes ranging from 19 to 13470. So, our first concern was to clean the data. Since the attributes employment concern and employment occupation had the highest missing data (13470 values) we decided to drop the same along with respondent id as it was of no use. The next step involved checking of correlation  between the attributes. This was done using the seaborn library’s correlation heatmap. It was noted that two attributes named doctor recc H1N1 vaccine and doctor recc seasonal vaccine attributes were positively correlated by 60\%.
+The first step in the data analysis was to check if the data has any duplicate (i.e. duplicate respondent ids) and missing values, duplicates were not observed, but the dataset had many missing values in different attributes. So, the first concern was to clean the data. Since the attributes employment concern and employment occupation had the highest missing data (13470 values) we decided to drop the same along with respondent id as it was of no use. The next step involved checking of correlation  between the attributes. This was done using the \textit{seaborn} library's correlation heatmap. It was noted that some attributes exhibited mild positive correlation, with two stand-out attributes named \texttt{doctor recc H1N1 vaccine} and \texttt{doctor recc seasonal vaccine}, which were positively correlated by 60\%.
 
-Hence, only one attribute has been retained. In the next step, the missing data were handled. Two different imputation methods are implemented in this project, the first one being median imputation and the second one, the one-hot encoder. The algorithms and packages used in this work require numeric data, and not categorical data. Therefore, a unique numerical value is assigned to each category in the object columns. This method can cause problems, as the model might not recognize the data as categorical and would process it on a scale. This leads to incorrect weight assignments. To avoid this problem, one-hot encoder is used, which encodes a category in a 1-hot vector, where the position in the vector refers to each category and its size is equal to the number of categories. Simple imputer is used to fill in missing data using median method. The Pandas library in Python identifies missing values as NaN. After the data is cleaned and pre-processed, graphical visualizations are generated.
+In the next step, the missing data were handled. Two different imputation methods are implemented in this project, the first one being median imputation and the second one, the one-hot encoder. The algorithms and packages used in this work require numeric data, and not categorical data. Therefore, a unique numerical value is assigned to each category in the object columns. This method can cause problems, as the model might not recognize the data as categorical and would process it on a scale. This leads to incorrect weight assignments. To avoid this problem, one-hot encoder is used, which encodes a category in a 1-hot vector, where the position in the vector refers to each category and its size is equal to the number of categories. Simple imputer is used to fill in missing data using median method. The \textit{Pandas} library in Python identifies missing values as \texttt{NaN}. After the data is cleaned and pre-processed, graphical visualizations are generated.
 \begin{center}
-    \includegraphics[width = 8cm,height=8cm]{figures/Heatmap.png}\\  Figure 1 - Feature Correlation Heatmap
+    \includegraphics[width = 8cm,height=8cm]{figures/Heatmap.png}\\  
+    Figure 2.1 - Feature Correlation Heatmap
 \end{center}
 
 \subsection{Class Balance}
@@ -48,20 +44,38 @@ Hence, only one attribute has been retained. In the next step, the missing data 
 
 \textit{Explicar aqui o que é o ROC}
 
-\section{Model Pipeline}
+\textit{Mostrar o ROC do Dummy Classifier, e o ROC do catboost por exemplo}
 
-\textit{Talvez seja melhor condensar esta secção com a proxima, sob metodologia}
+\section{Methodology}
 
-\textit{Meter aqui aquelas figuras do model pipeline, e mostrar o esquema lógico do que vai ser construido}
+As mentioned previously, several classification models were experimented with and compared. Some of the standard classification models utilized for the purposes of this project included Logistic Regression, Multinomial Naive Bayes, K-Nearest neighbors, Decision Trees and Support Vector Machines. Besides these, two gradient boosting algorithms, \textit{CatBoost} and \textit{XGBoost} were also used.
+For most of the models, in order to automate the data processing and estimation steps, \textit{sklearn} pipelines were utilized. Within the preprocessing steps, column transformations were performed separately for the numerical and categorical features. For the numerical processing, the \texttt{StandardScaler()} SKLearn function was utilized in most cases to guarantee that each column had nil mean and unit variance, followed by \texttt{SimpleImputer()} to fill all missing data values utilizing each columns median value.
+
+For categorical features, missing data was also filled using \texttt{SimpleImputer()}, but this time with the most frequent value, before being encoded utilizing a One-Hot Encoder, which separated each possible category with each feature into separate binary variables.
+For the estimation, since most classifiers utilized did not support multi-label classification, the \texttt{MultiOutputClassifier()} function was utilized, which in the this case will train two separate instances of the desired estimator.
+
+For measuring the performance of the classifiers obtained before submitting any results for the competition (only 3 daily submissions were allowed on this competition), the training set was split/folded randomly using \texttt{train\_test\_split()} to obtain a performance measurement. After this, the models were trained on the entire dataset. Figure 4.1. illustrates this entire process.
 
 \begin{center}
-    \includegraphics[width = 5cm]{figures/ModelPipeline.png}\\
-    Figure 3.x.x - Model pipeline example
+    \includegraphics[width=7cm]{figures/MethodologyStructure.png}\\
+    Figure 4.1 - Model Structure for the project
 \end{center}
 
-\section{Models}
+\subsection{Logistic Regression}
 
-\textit{Meter aqui todos os modelos que foram experimentados}
+The first model to be trained was the Logistic Regression. Unlike what the name suggests, the Logistic model is a classification model rather than a regression model. It makes use of logist curve (also known as the sigmoid function)
+
+\subsection{Naive Bayes}
+
+\subsection{K-Nearest Neighbors}
+
+\subsection{Decision Trees}
+
+\subsection{Support Vector Machines}
+
+\subsection{XGBoost}
+
+\subsection{CatBoost}
 
 \section{Results}
 

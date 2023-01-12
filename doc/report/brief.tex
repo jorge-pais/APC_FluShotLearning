@@ -39,10 +39,25 @@ In the next step, the missing data were handled. Two different imputation method
 \end{center}
 
 \subsection{Class Balance}
+Different attributes are plotted to check how the data is distributed.
+Firstly, it is observed that out of the people who received the seasonal vaccine, most of them were female. The same case was also observed with H1N1 vaccine through which one can conclude that women are more prone to get affected than men.
+\begin{center}
+    \includegraphics[width = 8cm,height=7cm]{figures/Sex.png}\\  Figure 2 - Vaccination for male and female
+\end{center}
+
+The age group has a strong correlation with the seasonal flu vaccine but not with the H1N1 flu vaccine. It seems that people act appropriately when it comes to the seasonal flu as older individuals have a higher risk of complications. However, with H1N1 flu, even though older individuals have a higher risk of complications, they are less likely to get infected. This analysis does not provide information about causality, but it seems that the risk factors are reflected in vaccination rates.
+It appears that questions related to knowledge and opinions have a strong correlation with both target variables. Finally we got a  graph to conclude white people received the highest vaccination than any other race that is depicted which is more evident with the seasonal flu vaccine, but not as much with the H1N1 flu vaccine. 
+
+\begin{center}
+    \includegraphics[width = 8cm,height=6cm]{figures/Age.png}\\  Figure 3 - Vaccination for different age groups
+\end{center}
+\begin{center}
+    \includegraphics[width = 8cm,height=6cm]{figures/Race.png}\\  Figure 4 - Vaccination for different race
+\end{center}
+
 
 \section{Performance Metric}
 
-\textit{Explicar aqui o que é o ROC}
 
 \textit{Mostrar o ROC do Dummy Classifier, e o ROC do catboost por exemplo}
 

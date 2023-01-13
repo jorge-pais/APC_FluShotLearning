@@ -49,22 +49,23 @@ The age group has a strong correlation with the seasonal flu vaccine but not wit
 It appears that questions related to knowledge and opinions have a strong correlation with both target variables. Finally we got a  graph to conclude white people received the highest vaccination than any other race that is depicted which is more evident with the seasonal flu vaccine, but not as much with the H1N1 flu vaccine. 
 
 \begin{center}
-    \includegraphics[width = 8cm,height=6cm]{figures/Age.png}\\  Figure 3 - Vaccination for different age groups
+    \includegraphics[width = 8cm]{figures/Age.png}\\
+    Figure 2.2 - Vaccination for different age groups
 \end{center}
 \begin{center}
-    \includegraphics[width = 8cm,height=6cm]{figures/Race.png}\\  Figure 4 - Vaccination for different race
+    \includegraphics[width = 8cm]{figures/Race.png}\\
+    Figure 2.3 - Vaccination for different race
 \end{center}
 
 
 \section{Performance Metric}
 
-
+\textit{Explicar o que é o ROC}
 \textit{Mostrar o ROC do Dummy Classifier, e o ROC do catboost por exemplo}
 
 \section{Methodology}
-
-As mentioned previously, several classification models were experimented with and compared. Some of the standard classification models utilized for the purposes of this project included Logistic Regression, Multinomial Naive Bayes, K-Nearest neighbors, Decision Trees and Support Vector Machines. Besides these, two gradient boosting algorithms, \textit{CatBoost} and \textit{XGBoost} were also used.
-For most of the models, in order to automate the data processing and estimation steps, \textit{SKLearn} pipelines were utilized. Within the preprocessing steps, column transformations were performed separately for the numerical and categorical features. For the numerical processing, the \texttt{StandardScaler()} \textit{SKLearn} function was utilized in most cases to guarantee that each column had nil mean and unit variance, followed by \texttt{SimpleImputer()} to fill all missing data values utilizing each columns median value.
+As mentioned previously, several classification models were experimented with and compared. Some of the standard classification models utilized for the purposes of this project included Logistic Regression, Multinomial Naive Bayes, K-Nearest neighbors and Decision Trees. Besides these, two gradient boosting algorithms, \textit CatBoost and \textit XGBoost were also used.
+For most of the models, in order to automate the data processing and estimation steps, \textit{SKLearn} pipelines were utilized. Within the preprocessing steps, column transformations were performed separately for the numerical and categorical features. For the numerical processing, the \texttt{StandardScaler} \textit{SKLearn} class was utilized in most cases to guarantee that each column had nil mean and unit variance, followed by \texttt{SimpleImputer} to fill all missing data values utilizing each columns median value.
 
 For categorical features, missing data was also filled using \texttt{SimpleImputer()}, but this time with the most frequent value, before being encoded utilizing an One-Hot Encoder, which separated each possible category within each feature into separate binary variables.
 For the estimation, since most classifiers utilized did not support multi-label classification, the \texttt{MultiOutputClassifier()} function was utilized, which in the this case will train two separate instances of the desired estimator.
@@ -73,14 +74,12 @@ For measuring the performance of the classifiers obtained before submitting any 
 
 \begin{center}
     \includegraphics[width=7cm]{figures/MethodologyStructure.png}\\
-    Figure 4.1 - Model Structure for the project
+    Figure 4.1 - Model Structure used
 \end{center}
 
 \subsection{Logistic Regression}
-
-The first model to be trained was the Logistic Regression. Unlike what the name suggests, the Logistic model is a classification model rather than a regression model and is one of the most widely used techniques when it comes to solving classification problems. 
-
-To utilize the Logistic Regression within our model, \textit{SKLearn} already includes an implementation of this model with the function \texttt{LogisticRegression()}, which includes several tweakable parameters. To iterate and compare different parameter combinations, \textit{SKLearn} includes a simple way to automate the process with the function \texttt{GridSearchCV}.
+The first model to be trained was the Logistic Regression. Unlike what the name suggests, the Logistic model is a classification model rather than a regression model and is one of the most widely used techniques when it comes to solving classification problems. %\\
+To utilize the Logistic Regression within our model, \textit{SKLearn} already includes an implementation of this model with the class \texttt{LogisticRegression}, which includes several tweakable parameters. To iterate and compare different parameter combinations, \textit{SKLearn} includes a simple way to automate the process with the \texttt{GridSearchCV} class. This was utilized for many of the models tested, and in the case of the Logistic Regression, it was utilized to figure out the optimum type of regularization and it's strength.
 
 \subsection{Naive Bayes}
 
@@ -90,15 +89,31 @@ The Naive Bayes classification methods, work by applying Bayes' Theorem naively 
 
 \subsection{K-Nearest Neighbors}
 
+The K-Nearest Neighbors is a machine learning algorithm that can be used for both regression and classification. In the case of classification, the algorithm computes the $k$ closest neighbors to the observation, and classifies the observation based on what class held the majority among those neighbors.
+
+This method can achieve very good results depending on what value of $k$ is utilized. A larger k will generally suppress the effect of noise on the data, but makes the decision boundary less clear which might affect the ROC score. To use the model, \textit{SKLearn} includes the \texttt{KNeighborsClassifier} class, which was used in combination with \texttt{GridSearchCV} to find the value $k$ that produces the best results.
+
 \subsection{Decision Trees}
 
-\subsection{Support Vector Machines}
+Decision Trees are models that attempt to match the target variable by learning decisions from the training data and applying these decisions to the features of an observation's features. These models have the advantage of being conceptually easy to understand, but are quite prone to overfitting the training data.
+
+Similarly to the previous models, the \textit{SKLearn} implementation of the decisions trees, \texttt{DecisionTreeClassifier}, was utilized.
 
 \subsection{XGBoost}
 
+\textit{XGBoost} (which stands for eXtreme Gradient Boosting), is a library that provides many gradient boosting algorithms. Essentially, gradient boosting gives a result based on an ensemble of many weaker learning models, as for example decision trees, combining these sequentially and having each stage correct the errors of the previous one.
+
+This library provides many different models and several interfaces for different programming environments. For the purposes of this work, the \texttt{XGBClassifier} class was used, as it easily integrates with the \textit{SKLearn}.
+
 \subsection{CatBoost}
 
+The final model that was utilized in this project was \textit{CatBoost}. Similarly to XGBoost, and as the name implies, \textit{CatBoost} is also a gradient boosting library. The advantage of \textit{CatBoost} is that it natively supports categorical features without any need for encoding these. This library provides a classification model, also compatible with \textit{SKLearn}, through the class \texttt{CatBoostClassifier}.
+
+This model was utilized in two ways, firstly by integrating it into the pipeline developed previously (in the notebook \texttt{Project\_mainModel.ipynb}, including categorical feature encoding) and in a separate preprocessing pipeline in the file \texttt{Project\_catBoostedModel.ipynb}. This was done since the first the pipeline utilized \textit{SKLearn's} ColumnTransformers, which made it challenging to specify what columns were categorical in \textit{CatBoost}.
+
 \section{Results}
+
+
 
 \section{Conclusion}
 

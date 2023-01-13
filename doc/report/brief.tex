@@ -12,7 +12,7 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 \title{Flu Shot Learning: \\Predicting H1N1 and Seasonal Flu Vaccination}
-\author{Jorge Pais, José Baptista and Pedro Duarte\\ 
+\author{Jorge Pais, José Baptista and Pedro Duartee\\ 
     \textit{up201904841@edu.fe.up.pt; up201904814@edu.fe.up.pt; up201905050@edu.fe.up.pt}}
 
 \maketitle
@@ -39,7 +39,13 @@ In the next step, the missing data were handled. Two different imputation method
 \end{center}
 
 \subsection{Class Balance}
-Different attributes are plotted to check how the data is distributed.
+Different attributes are plotted to check how the data is distributed. 
+
+Approximately half of individuals have been vaccinated for the seasonal flu, while only 20\% have been vaccinated for H1N1. As for class balance, we can say that the distribution of individuals vaccinated for the seasonal flu is balanced, while the distribution of those vaccinated for H1N1 is moderately imbalanced.
+\begin{center}
+    \includegraphics[width = 8cm,height=7cm]{figures/Proportion.png}\\  
+    Figure 2.1 - Feature Correlation Heatmap
+\end{center}
 Firstly, it is observed that out of the people who received the seasonal vaccine, most of them were female. The same case was also observed with H1N1 vaccine through which one can conclude that women are more prone to get affected than men.
 \begin{center}
     \includegraphics[width = 8cm,height=7cm]{figures/Sex.png}\\  Figure 2 - Vaccination for male and female
@@ -52,10 +58,7 @@ It appears that questions related to knowledge and opinions have a strong correl
     \includegraphics[width = 8cm]{figures/Age.png}\\
     Figure 2.2 - Vaccination for different age groups
 \end{center}
-\begin{center}
-    \includegraphics[width = 8cm]{figures/Race.png}\\
-    Figure 2.3 - Vaccination for different race
-\end{center}
+
 
 
 \section{Performance Metric}

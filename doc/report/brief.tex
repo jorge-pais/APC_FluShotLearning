@@ -70,15 +70,15 @@ Firstly, the AUC was calculated for a \textit{Dummy Classifier}. It is a classif
     Figure 3.1 - ROC curve for \textit{Dummy Classifier} (H1N1 vaccine)
 \end{center}
 
-After that, using the same method, the classification performance of different experimented classifiers was measured. One of the best results was obtained with the \textit CatBoost model, whose graph for the seasonal vaccine is represented in figure 3.2.
+After that, using the same method, the classification performance of different experimented classifiers was measured. One of the best results was obtained with the \textit{CatBoost} model, whose graph for the seasonal vaccine is represented in figure 3.2.
 
 \begin{center}
     \includegraphics[width=7cm]{figures/ROC_CatBoost.png}\\
-    Figure 3.2 - ROC curve for \textit CatBoost (seasonal vaccine)
+    Figure 3.2 - ROC curve for \textit{CatBoost} (seasonal vaccine)
 \end{center}
 
 \section{Methodology}
-As mentioned previously, several classification models were experimented with and compared. Some of the standard classification models utilized for the purposes of this project included Logistic Regression, Multinomial Naive Bayes, K-Nearest neighbors and Decision Trees. Besides these, two gradient boosting algorithms, \textit CatBoost and \textit XGBoost were also used.
+As mentioned previously, several classification models were experimented with and compared. Some of the standard classification models utilized for the purposes of this project included Logistic Regression, Multinomial Naive Bayes, K-Nearest neighbors and Decision Trees. Besides these, two gradient boosting algorithms, \textit{CatBoost} and \textit{XGBoost} were also used.
 For most of the models, in order to automate the data processing and estimation steps, \textit{SKLearn} pipelines were utilized. Within the preprocessing steps, column transformations were performed separately for the numerical and categorical features. For the numerical processing, the \texttt{StandardScaler} \textit{SKLearn} class was utilized in most cases to guarantee that each column had nil mean and unit variance, followed by \texttt{SimpleImputer} to fill all missing data values utilizing each columns median value.
 
 For categorical features, missing data was also filled using \texttt{SimpleImputer()}, but this time with the most frequent value, before being encoded utilizing an One-Hot Encoder, which separated each possible category within each feature into separate binary variables.

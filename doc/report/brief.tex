@@ -62,9 +62,20 @@ It appears that questions related to knowledge and opinions have a strong correl
 
 
 \section{Performance Metric}
+To measure the performance of the classifications performed between different classifiers, the ROC (Receiver Operating Characteristic) metric was utilized. The ROC is a type of plot used in binary classifiers, which measures the true positive rate (TPR) against the false positive rate (FPR) for different classifier thresholds. To obtain a quantitative measurement of the performance obtained, it it possible to take the area under the curve (AUC). One way of interpreting AUC is as the probability that the model ranks a random positive example more highly than a random negative example. Note that this area can be between 0 and 1, the latter characterizing a perfect classifier.
+Firstly, the AUC was calculated for a \textit{Dummy Classifier}. It is a classifier model that makes predictions without trying to find patterns in the data, serving as a simple baseline to compare with other more complex classifiers. The strategy used to generate predictions was "uniform", in order to generate predictions uniformly at random. The value obtained for the AUC of the H1N1 vaccine can be seen in the graph in figure 3.1.
 
-\textit{Explicar o que é o ROC}
-\textit{Mostrar o ROC do Dummy Classifier, e o ROC do catboost por exemplo}
+\begin{center}
+    \includegraphics[width=7cm]{figures/ROC_Dummy_Classifier.png}\\
+    Figure 3.1 - ROC curve for \textit{Dummy Classifier} (H1N1 vaccine)
+\end{center}
+
+After that, using the same method, the classification performance of different experimented classifiers was measured. One of the best results was obtained with the \textit CatBoost model, whose graph for the seasonal vaccine is represented in figure 3.2.
+
+\begin{center}
+    \includegraphics[width=7cm]{figures/ROC_CatBoost.png}\\
+    Figure 3.2 - ROC curve for \textit CatBoost (seasonal vaccine)
+\end{center}
 
 \section{Methodology}
 As mentioned previously, several classification models were experimented with and compared. Some of the standard classification models utilized for the purposes of this project included Logistic Regression, Multinomial Naive Bayes, K-Nearest neighbors and Decision Trees. Besides these, two gradient boosting algorithms, \textit CatBoost and \textit XGBoost were also used.

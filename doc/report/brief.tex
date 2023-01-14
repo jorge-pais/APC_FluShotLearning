@@ -30,36 +30,40 @@ In 2009, the H1N1 influenza virus, also known as swine flu, caused a global pand
 For the competition partaken in this project, the dataset was provided by DrivenData, and it comes from the National 2009 H1N1 Flu Survey (NHFS) which was collected through telephone interviews. The dataset consists of 36 attributes, varying from numerical with both ordinal and binary variables, and also categorical attributes. For the training data, there were 2 labels associated with each respondent, indicating whether or not each respondent had taken the H1N1 and Seasonal flu vaccines.
 
 \subsection{Data Cleaning and Pre-processing}
-The first step in the data analysis was to check if the data has any duplicate (i.e. duplicate respondent ids) and missing values, duplicates were not observed, but the dataset had many missing values in different attributes. So, the first concern was to clean the data. Since the attributes employment concern and employment occupation had the highest missing data (13470 values) we decided to drop the same along with respondent id as it was of no use. The next step involved checking of correlation  between the attributes. This was done using the \textit{Seaborn} library's correlation heatmap. It was noted that some attributes exhibited mild positive correlation, with two stand-out attributes named \texttt{doctor recc H1N1 vaccine} and \texttt{doctor recc seasonal vaccine}, which were positively correlated by 60\%.
+The first step in the data analysis was to check if the data has any duplicate (i.e. duplicate respondent ids) and missing values, duplicates were not observed, but the dataset had many missing values in different attributes so, one of the first concerns was to clean the data. Some the attributes, namely \texttt{employment concern} and \texttt{employment occupation} had the highest missing data (13470 values). The \textit{Pandas} library in Python identifies these missing values as \texttt{NaN}, and this can be identified and handled by different imputation classes from \textit{SKLearn}. Another problem is that some of the data is categorical, which can be solved simply by encoding each possible category within a feature.
 
-In the next step, the missing data were handled. Two different imputation methods are implemented in this project, the first one being median imputation and the second one, the one-hot encoder. The algorithms and packages used in this work require numeric data, and not categorical data. Therefore, a unique numerical value is assigned to each category in the object columns. This method can cause problems, as the model might not recognize the data as categorical and would process it on a scale. This leads to incorrect weight assignments. To avoid this problem, one-hot encoder is used, which encodes a category in a 1-hot vector, where the position in the vector refers to each category and its size is equal to the number of categories. Simple imputer is used to fill in missing data using median method. The \textit{Pandas} library in Python identifies missing values as \texttt{NaN}. After the data is cleaned and pre-processed, graphical visualizations are generated.
+\subsection{Feature Correlation}
+The next step involved checking of correlation  between the attributes. This was done using the \textit{Seaborn} library's correlation heatmap. It was noted that some attributes exhibited mild positive correlation, with two stand-out attributes named \texttt{doctor recc H1N1 vaccine} and \texttt{doctor recc seasonal vaccine}, which were positively correlated by 60\%.
+
 \begin{center}
     \includegraphics[width = 8cm,height=8cm]{figures/Heatmap.png}\\  
     Figure 2.1 - Feature Correlation Heatmap
 \end{center}
 
-\subsection{Class Balance}
-Different attributes are plotted to check how the data is distributed. 
+\subsection{Class Balance and Label Correlation}
+Observing the distribution of the two target variables, shown in Figure 2.2, approximately half of individuals have been vaccinated for the seasonal flu, while only 20\% have been vaccinated for H1N1. As for class balance, we can say that the distribution of individuals vaccinated for the seasonal flu is balanced, while the distribution of those vaccinated for H1N1 is imbalanced.
 
-Approximately half of individuals have been vaccinated for the seasonal flu, while only 20\% have been vaccinated for H1N1. As for class balance, we can say that the distribution of individuals vaccinated for the seasonal flu is balanced, while the distribution of those vaccinated for H1N1 is moderately imbalanced.
+Taking the correlation (also known as the phi coefficient ) between the two target variables a value of approximately $\phi = 0.377$ was obtained. This indicates a positive correlation between the two target variables, meaning that these aren't fully independent from each other. 
 \begin{center}
     \includegraphics[width = 8cm,height=7cm]{figures/Proportion.png}\\  
-    Figure 2.1 - Feature Correlation Heatmap
+    Figure 2.2 - Feature Correlation Heatmap
 \end{center}
+
+
+
+\subsection{Feature Distributions}
 Firstly, it is observed that out of the people who received the seasonal vaccine, most of them were female. The same case was also observed with H1N1 vaccine through which one can conclude that women are more prone to get affected than men.
 \begin{center}
     \includegraphics[width = 8cm,height=7cm]{figures/Sex.png}\\  Figure 2 - Vaccination for male and female
 \end{center}
 
 The age group has a strong correlation with the seasonal flu vaccine but not with the H1N1 flu vaccine. It seems that people act appropriately when it comes to the seasonal flu as older individuals have a higher risk of complications. However, with H1N1 flu, even though older individuals have a higher risk of complications, they are less likely to get infected. This analysis does not provide information about causality, but it seems that the risk factors are reflected in vaccination rates.
-It appears that questions related to knowledge and opinions have a strong correlation with both target variables. Finally we got a  graph to conclude white people received the highest vaccination than any other race that is depicted which is more evident with the seasonal flu vaccine, but not as much with the H1N1 flu vaccine. 
+It appears that questions related to knowledge and opinions have a strong correlation with both target variables.
 
 \begin{center}
     \includegraphics[width = 8cm]{figures/Age.png}\\
     Figure 2.2 - Vaccination for different age groups
 \end{center}
-
-
 
 \section{Performance Metric}
 To measure the performance of the classifications performed between different classifiers, the ROC (Receiver Operating Characteristic) metric was utilized. The ROC is a type of plot used in binary classifiers, which measures the true positive rate (TPR) against the false positive rate (FPR) for different classifier thresholds. To obtain a quantitative measurement of the performance obtained, it it possible to take the area under the curve (AUC). One way of interpreting AUC is as the probability that the model ranks a random positive example more highly than a random negative example. Note that this area can be between 0 and 1, the latter characterizing a perfect classifier.
@@ -99,7 +103,7 @@ To utilize the Logistic Regression within our model, \textit{SKLearn} already in
 
 The Naive Bayes classification methods, work by applying Bayes' Theorem naively assuming that all the features are conditionally independent from each other. The prior and posterior can then be estimated in different ways.
 
-\textit{SKLearn} includes several Naive Bayes based classifiers, of which the \texttt{GaussianNB} and \texttt{MultinomialNB} were utilized in this project. \texttt{GaussianNB} assumes that the likelihood of each feature given the label is a gaussian function. Meanwhile, \texttt{MultinomialNB} assumes that the data is multinomially distributed, and as such it estimates the posterior probabilities by counting how often a given value appears within each label, for each feature. 
+\textit{SKLearn} includes several Naive Bayes based classifiers, of which the \texttt{GaussianNB} and \texttt{MultinomialNB} were utilized in this project. \texttt{GaussianNB} assumes that the likelihood of each feature given the label is a gaussian function. Meanwhile, \texttt{MultinomialNB} assumes that the data is multinomially distributed, and as such it estimates the posterior probabilities by counting how often a given value appears within each label, for each feature. While using the multinomial model, it was required to remove the standardization/scaling that was applied to the numerical features.
 
 \subsection{K-Nearest Neighbors}
 
@@ -126,6 +130,40 @@ The final model that was utilized in this project was \textit{CatBoost}. Similar
 This model was utilized in two ways, firstly by integrating it into the pipeline developed previously (in the notebook \texttt{Project\_mainModel.ipynb}, including categorical feature encoding) and in a separate preprocessing pipeline in the file \texttt{Project\_catBoostedModel.ipynb}. This was done since the first the pipeline utilized \textit{SKLearn's} ColumnTransformers, which made it challenging to specify what columns were categorical in \textit{CatBoost}.
 
 \section{Results}
+
+Examining the experimental results for all the non gradient boosting models, the following results were obtained:
+
+\begin{center}
+    \begin{tabular}{|l|l|}
+        \hline
+    \textbf{Model} & \textbf{ROC AUC score} \\ 
+    \hline \hline
+    Logistic regression (C = 0.01) & 0.84555 \\ \hline
+    Logistic regression (C = 0.1) & 0.84655 \\ \hline
+    Logistic regression (C = 1) & 0.84640 \\ \hline
+    Logistic regression (C = 10) & 0.84635 \\ \hline
+    Gaussian Naive Bayes & 0.72947 \\ \hline
+    Multinomial Naive Bayes & 0.79467 \\ \hline
+    Decision Tree & 0.66738 \\ \hline
+    KNearestNeighbors (k=169) & 0.82478 \\ \hline
+    \end{tabular}
+\end{center}
+
+It is possible to see that all the Logistic Regression models exhibited the best classification performance, having pretty much the same score for all the values of C. This parameter is essentially the inverse of the regularization strength. 
+The worst performing model out of all, was clearly the Decision tree classifier. Observing the ROC plot for the Decision Tree, shown in figure 5.1, it is possible to see that it is composed of two straight lines, due to this classifier not being able to estimate the probability of each label, but instead assigning an hard label to each observation.
+
+\begin{center}
+    \includegraphics[width=8cm]{figures/decisionTreeROC.png}\\
+    Figure 5.1 - ROC plot for the Decision Tree classifier
+\end{center}
+
+In terms of the Naive Bayes classifiers, it is possible to see that the multinomial distribution approximation presents much promising results than the Gaussian approximation.
+
+Taking a look at the results K-Nearest Neighbors, first the score plot of Figure 5.2 was obtained by varying the number of neighbors used and averaging the score across 10 folds of the dataset. It was possible to observe that above a certain threshold of k, that the score seems to stagnate.
+\begin{center}
+    \includegraphics[width=8cm]{figures/KNN_score.png}\\
+    Figure 5.2 - K-Nearest Neighbors ROC AUC Score for varying number of neighbors
+\end{center}
 
 
 

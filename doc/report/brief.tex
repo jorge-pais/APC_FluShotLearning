@@ -12,13 +12,13 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 \title{Flu Shot Learning: \\Predicting H1N1 and Seasonal Flu Vaccination}
-\author{Jorge Pais, José Baptista and Pedro Duartee\\ 
+\author{Jorge Pais, José Baptista and Pedro Duarte\\ 
     \textit{up201904841@edu.fe.up.pt; up201904814@edu.fe.up.pt; up201905050@edu.fe.up.pt}}
 
 \maketitle
 
 \begin{abstract}
-    %The model used in this study was a gradient boosting classifier, which was evaluated on separate test data provided by the NHFS using the area under the Receiver Operating Characteristic (ROC) curve as a performance metric. After necessary parameter tuning, the model was able to achieve a score of 0.8415.
+    This document describes the realization of a machine learning competition regarding H1N1 and Seasonal Flu vaccination, partaken in the context of the final project of the Machine Learning course. For the project, several classification models were integrated within a pipeline and compared between each other. The model that exhibited the best performance was a gradient boosting classifier, which was able to achieve a ROC score of 0.8616.
 \end{abstract}
 
 \section{Introduction}
@@ -27,7 +27,7 @@ In 2009, the H1N1 influenza virus, also known as swine flu, caused a global pand
 
 \section{Data Resources}
 
-For the competition partaken in this project, the dataset was provided by DrivenData, and it comes from the National 2009 H1N1 Flu Survey (NHFS) which was collected through telephone interviews. The dataset consists of 36 attributes, varying from numerical with both ordinal and binary variables, and also categorical attributes. For the training data, there were 2 labels associated with each respondent, indicating whether or not each respondent had taken the H1N1 and Seasonal flu vaccines.
+For the competition partaken in this project, the dataset was provided by DrivenData \cite{b1}, and it comes from the National 2009 H1N1 Flu Survey (NHFS) which was collected through telephone interviews. The dataset consists of 36 attributes, varying from numerical with both ordinal and binary variables, and also categorical attributes. For the training data, there were 2 labels associated with each respondent, indicating whether or not each respondent had taken the H1N1 and Seasonal flu vaccines.
 
 \subsection{Data Cleaning and Pre-processing}
 The first step in the data analysis was to check if the data has any duplicate (i.e. duplicate respondent ids) and missing values, duplicates were not observed, but the dataset had many missing values in different attributes so, one of the first concerns was to clean the data. Some the attributes, namely \texttt{employment concern} and \texttt{employment occupation} had the highest missing data (13470 values). The \textit{Pandas} library in Python identifies these missing values as \texttt{NaN}, and this can be identified and handled by different imputation classes from \textit{SKLearn}. Another problem is that some of the data is categorical, which can be solved simply by encoding each possible category within a feature.
@@ -67,26 +67,26 @@ It appears that questions related to knowledge and opinions have a strong correl
 
 \section{Performance Metric}
 To measure the performance of the classifications performed between different classifiers, the ROC (Receiver Operating Characteristic) metric was utilized. The ROC is a type of plot used in binary classifiers, which measures the true positive rate (TPR) against the false positive rate (FPR) for different classifier thresholds. To obtain a quantitative measurement of the performance obtained, it it possible to take the area under the curve (AUC). One way of interpreting AUC is as the probability that the model ranks a random positive example more highly than a random negative example. Note that this area can be between 0 and 1, the latter characterizing a perfect classifier.
-Firstly, the AUC was calculated for a \textit{Dummy Classifier}. It is a classifier model that makes predictions without trying to find patterns in the data, serving as a simple baseline to compare with other more complex classifiers. The strategy used to generate predictions was "uniform", in order to generate predictions uniformly at random. The value obtained for the AUC of the H1N1 vaccine can be seen in the graph in figure 3.1.
+To illustrate the ROC curve, \textit{SKLearn's} \texttt{Dummy Classifier} can be utilized as a random classifier, to obtain a baseline for the classifier performance. The ROC curve obtained can be seen in the graph in figure 3.1.
 
 \begin{center}
-    \includegraphics[width=7cm]{figures/ROC_Dummy_Classifier.png}\\
+    \includegraphics[width=8cm]{figures/ROC_Dummy_Classifier.png}\\
     Figure 3.1 - ROC curve for \textit{Dummy Classifier} (H1N1 vaccine)
 \end{center}
 
-After that, using the same method, the classification performance of different experimented classifiers was measured. One of the best results was obtained with the \textit{CatBoost} model, whose graph for the seasonal vaccine is represented in figure 3.2.
+If an actual classifier model is utilized, a plot like that of Figure 3.2 can be obtained. If an ideal classifier were to be used, the resulting ROC would theoretically be a single point were the TPR would be one and the FPR nil. Even a classifier can distinguish perfectly between two classes, the ROC plot can also give an idea of how sure the classifier actually is based on the probabilities.
 
 \begin{center}
-    \includegraphics[width=7cm]{figures/ROC_CatBoost.png}\\
-    Figure 3.2 - ROC curve for \textit{CatBoost} (seasonal vaccine)
+    \includegraphics[width=8cm]{figures/ROC_CatBoost.png}\\
+    Figure 3.2 - ROC curve for Logistic Regression (seasonal vaccine)
 \end{center}
 
 \section{Methodology}
 As mentioned previously, several classification models were experimented with and compared. Some of the standard classification models utilized for the purposes of this project included Logistic Regression, Multinomial Naive Bayes, K-Nearest neighbors and Decision Trees. Besides these, two gradient boosting algorithms, \textit{CatBoost} and \textit{XGBoost} were also used.
 For most of the models, in order to automate the data processing and estimation steps, \textit{SKLearn} pipelines were utilized. Within the preprocessing steps, column transformations were performed separately for the numerical and categorical features. For the numerical processing, the \texttt{StandardScaler} \textit{SKLearn} class was utilized in most cases to guarantee that each column had nil mean and unit variance, followed by \texttt{SimpleImputer} to fill all missing data values utilizing each columns median value.
 
-For categorical features, missing data was also filled using \texttt{SimpleImputer()}, but this time with the most frequent value, before being encoded utilizing an One-Hot Encoder, which separated each possible category within each feature into separate binary variables.
-For the estimation, since most classifiers utilized did not support multi-label classification, the \texttt{MultiOutputClassifier()} function was utilized, which in the this case will train two separate instances of the desired estimator.
+For categorical features, missing data was also filled using \texttt{SimpleImputer}, but this time with the most frequent value, before being encoded utilizing an One-Hot Encoder, which separated each possible category within each feature into separate binary variables.
+For the estimation, since most classifiers utilized did not support multi-label classification, the \texttt{MultiOutputClassifier} function was utilized, which in the this case will train two separate instances of the desired estimator.
 
 For measuring the performance of the classifiers obtained before submitting any results for the competition (only 3 daily submissions were allowed on this competition), the training set was split/folded randomly using \texttt{train\_test\_split()} to obtain a performance measurement. After this, the models were trained on the entire dataset. Figure 4.1. illustrates this entire process.
 
@@ -164,6 +164,9 @@ The worst performing model out of all, was clearly the Decision tree classifier.
 In terms of the Naive Bayes classifiers, it is possible to see that the multinomial distribution approximation presents much promising results than the Gaussian approximation.
 
 Taking a look at the results K-Nearest Neighbors, first the score plot of Figure 5.2 was obtained by varying the number of neighbors used and averaging the score across 10 folds of the dataset. It is possible to observe that above a certain threshold of k, that the score seems to stagnate.
+
+\vfill
+
 \begin{center}
     \includegraphics[width=8cm]{figures/KNN_score.png}\\
     Figure 5.2 - K-Nearest Neighbors ROC AUC Score for varying number of neighbors
@@ -203,14 +206,22 @@ Applying the unseen competition test data to some of the best performing models,
     \end{tabular}\\
     
     \vspace{6pt}
-    Table 5.2 - Scores for the gradient boosting models
+    Table 5.3 - Scores obtained during the competition submissions
 \end{center}
 
-With these results, it was very clear that \textit{CatBoost} demonstrated exceptional performance when compared to every other model tested. The final score of 0.8616 granted our team, at the time of writing, the 285th position on this competition's leaderboard. The top submission at the time of writing is a 0.8658, meaning that our classifer's performance is within 0.5\% of the top 1 result.  
+With these results, it was very clear that \textit{CatBoost} demonstrated exceptional performance when compared to every other model tested. The final score of 0.8616 granted our team the 285th position on this competition's leaderboard. The top submission at the time of writing is a 0.8658, meaning that our classifier's performance is within 0.5\% of the top 1 result.
 
 \section{Conclusion}
 
-\vfill
-\pagebreak
+From this project, it can be concluded that the design process of a classification model, even if using existing implementations, is a fundamental part of many machine learning applications and that knowing the nuances of this is essential in order to design good performing machine learning models. This project also gave insight to the characterization of binary classifiers, specifically using the Receiver Operating Characteristic metric. 
+
+Overall, it can be said that all the objectives set for this project were met, and that further knowledge of the concepts studied here has been obtained.
+
+
+\begin{thebibliography}{00}
+    \bibitem{b1} DrivenData, “Flu shot learning: Predict H1N1 and seasonal flu vaccines,” DrivenData. [Online]. Available: https://www.drivendata.org/competitions/66/flu-shot-learning/. [Accessed: 09-Jan-2023].
+    %\bibitem{b2}
+
+\end{thebibliography}
 
 \end{document}

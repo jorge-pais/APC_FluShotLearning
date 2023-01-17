@@ -36,23 +36,8 @@
 
 % Slide title background color
 \definecolor{background}{HTML}{ede6d8}
-
-% Slide title text color
-\definecolor{titleText}{HTML}{B40404}
-
-% Other possible color schemes
-
-% - Light green/dark green -
-%\definecolor{background}{HTML}{e4ede4}
-%\definecolor{titleText}{HTML}{2e592f}
-
-% - Light blue/dark blue -
-%\definecolor{background}{HTML}{d5d9e8}
-%\definecolor{titleText}{HTML}{2d375e}
-
-% - Beige/dark blue -
-%\definecolor{background}{HTML}{e8e2d5}
-%\definecolor{titleText}{HTML}{2d3375}
+% Slide title text color; cor da feup: Pantone 484
+\definecolor{titleText}{HTML}{9a3324}
 
 % Set colors
 \setbeamercolor{frametitle}{bg=background, fg=titleText}
@@ -70,10 +55,8 @@
 
 % Shortcut for bold text in math mode, e.g. $\b{X}$
 \let\b\mathbf
-
 % Shortcut for bold Greek letters, e.g. $\bg{\beta}$
 \let\bg\boldsymbol
-
 % Shortcut for calligraphic script, e.g. %\mc{M}$
 \let\mc\mathcal
 
@@ -147,39 +130,34 @@
 
 % --- Title slide ---
 
-\title{\color{titleText}Presentation title here}
-\subtitle{\color{Blue}Subtitle here (e.g., name of conference)}
-\author{Sara Venkatraman\vspace{-.3cm}}
-\institute{Cornell University, Statistics and Data Science}
+\title{\color{titleText} Flu Shot Learning}
+\subtitle{\color{titleText}Predicting H1N1 and Seasonal flu vaccination}
+\author{Jorge Pais, José Baptista e Pedro Duarte\vspace{-.3cm}}
+\institute{MsC Electrical and Computer Engineering}
 \date{}
 
 \begin{frame}
 \titlepage
 \vspace{-1.2cm}
 \begin{center}
-\includegraphics[width=2.3cm]{Cornell}\bigskip
-{\begin{spacing}{1.2}\scriptsize 
-Joint work with FirstName LastName, FirstName LastName
-\end{spacing}}
+    \begin{spacing}{1.2}\scriptsize 
+    Final project of the Machine Learning course M.EEC006 
+    \end{spacing}
 \end{center}
 \end{frame}
 
 % --- Main content ---
 
 % Example slide: use \pause to sequentially unveil content
-\begin{frame}{Mercer's theorem}
-\framesubtitle{Eigendecomposition of a kernel}
-A continuous function $K:([0,1]\times[0,1])\to\R$ is a \textit{kernel} if it is: \vspace{-0.4em}
-\pause
+\begin{frame}{Problem Description}
+\framesubtitle{Context and Objectives}
+
 \begin{itemize}
 \item Symmetric: $K(a,b)=K(b,a)$\pause
 \item Positive semi-definite: $$\sum_{i=1}^n\sum_{j=1}^nK(x_i,x_j)c_ic_j\geq 0$$ for all $x_1,...,x_n\in[0,1]$ and $c_1,...,c_n\in\R$
 \end{itemize}
 \pause 
-Now define an integral operator on $\El^2[0,1]$ using $K$:
-\begin{align*}
-(T_Kf)(x) = \int_0^1K(x,s)f(s)\dv s
-\end{align*}
+
 \end{frame}
 
 % Example slide 2: Image

@@ -33,6 +33,7 @@
 % --- Color and font settings ---
 
 \usepackage{xcolor}
+\usepackage{multicol}
 
 % Slide title background color
 \definecolor{background}{HTML}{ede6d8}
@@ -153,50 +154,82 @@
 \framesubtitle{Context and Objectives}
 
 \begin{itemize}
-\item Symmetric: $K(a,b)=K(b,a)$\pause
-\item Positive semi-definite: $$\sum_{i=1}^n\sum_{j=1}^nK(x_i,x_j)c_ic_j\geq 0$$ for all $x_1,...,x_n\in[0,1]$ and $c_1,...,c_n\in\R$
+    \item Competition hosted by DrivenData
+    \item The objective is to, based on socio-economical background, opinions, concerns, e.t.c, predict if whether a individual has taken the H1N1 or Seasonal Flu vaccines
+    \item Performance measurements by using Receiver Operating Characteristic (ROC)
 \end{itemize}
-\pause 
 
 \end{frame}
 
 % Example slide 2: Image
-\begin{frame}{Example image}
-\begin{figure}[H]
-\centering\includegraphics[width=7cm]{ExampleImage}	
-\end{figure}
+\begin{frame}{Data Set}
+\begin{multicols}{2}
+
+\begin{itemize}
+    \item The dataset was the 2009 National H1N1 Flu Survey, consisting of 35 attributes with both numerical (ordinal/binary) and categorical features.
+    \item Two-labels to predict: \texttt{h1n1\_vaccine} and \texttt{seasonal\_vaccine}
+    \item Two sets of 26707 respondents for the training data and evaluation, including and excluding labels, respectively.
+\end{itemize} 
+\includegraphics[width = 5cm, height = 5cm]{aaa.png}
+\end{multicols}
 \end{frame}
 
-% --- Bibliography slide ---
 
-\begin{frame}{References}
-\begin{thebibliography}{10}
-\beamertemplatearticlebibitems
-{\small
-
-\bibitem{Paper1}
-Paper 1 Title.
-\newblock Paper 1 Authors. \\
-{\it Journal Name} Edition, Year.
-
-\bibitem{Paper 2}
-Paper 2 Title.
-\newblock Paper 2 Authors.\\
-arXiv:1234.56789.
-}
-\end{thebibliography}
+\begin{frame}{Implementation}
+    \begin{multicols}{2}
+        \includegraphics[width = 4.7cm]{MethodologyStructure.png}
+        Several standard classification models were utilized:
+        \begin{itemize}
+            \item Logistic Regression
+            \item Naive Bayes Classifiers
+            \item Decision Trees
+            \item K-Nearest Neighbors
+        \end{itemize}
+        \pause
+        Along with some gradient boosting algorithms:
+        \begin{itemize}
+            \item \textit{XGBoost}
+            \item \textit{CatBoost}
+        \end{itemize}
+    \end{multicols}
 \end{frame}
 
+
+\begin{frame}{Results}
+    \begin{multicols*}{2}
+        For the standard models, the results on folded training data:
+        \includegraphics[width=5cm]{results1.png}
+        And for gradient boosting:
+        \includegraphics[width=5cm]{results2.png}
+        Example of ROC plot:
+        \includegraphics[width=5cm]{ROC.png}
+    \end{multicols*}
+\end{frame}
 % --- Thank you slide ---
+
+\begin{frame}{Results}
+\framesubtitle{Competition}
+    
+    \begin{tabular}{|l|l|}
+        \hline
+    \textbf{Model} & \textbf{ROC AUC score} \\ 
+    \hline \hline
+    Logistic Regression (C=0.1) & 0.8356 \\ \hline
+    K-Nearest Neighbors (k=169) & 0.8122 \\ \hline
+    CatBoost with One-Hot encoding & 0.8430 \\ \hline
+    CatBoost with specified cat\_features & 0.8616 \\ \hline
+    \end{tabular}
+    \vspace{5pt}
+    \begin{center}
+        Final place on the leaderboard: 285th    
+    \end{center}
+    
+\end{frame}
 
 \begin{frame}
 \begin{center}
 {\large\color{titleText} Thank you for listening!}
 \vspace{1cm}
-
-Sara Venkatraman \\[1em]
-skv24@cornell.edu \\
-https://sara-venkatraman.github.io
 \end{center}
 \end{frame}
 
